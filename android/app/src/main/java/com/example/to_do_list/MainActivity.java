@@ -35,19 +35,21 @@ public class MainActivity extends FlutterActivity {
     final List<String> fileNameList = new ArrayList<String>();
     final List<String> filePath = new ArrayList<String>();
     private MediaRecorder audioRecorder;
-    ;
+    MediaPlayer mediaPlayer;
 
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    String fileName = sdf1.format(timestamp);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         checkNeedPermissions();
-        final String fileName = sdf1.format(timestamp);
         String outPutFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/"+ fileName +".3gp";
         audioRecorder = new MediaRecorder();
+        mediaPlayer = new MediaPlayer();
+
 
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(new FlutterEngine(this));
@@ -92,7 +94,6 @@ public class MainActivity extends FlutterActivity {
                     System.out.println("MIC_OFF");
                 }
                 if(call.method.equals("PLAY")){
-                    MediaPlayer mediaPlayer = new MediaPlayer();
 
                     try{
                         mediaPlayer.setDataSource(outPutFileName);
@@ -103,6 +104,11 @@ public class MainActivity extends FlutterActivity {
                     }
                     mediaPlayer.start();
 
+                }if(call.method.equals("STOP")){
+                    mediaPlayer.stop();
+//                    mediaPlayer.reset();
+//                    mediaPlayer.release();
+//                    mediaPlayer = null;
                 }
                 System.out.println(filePath);
             }

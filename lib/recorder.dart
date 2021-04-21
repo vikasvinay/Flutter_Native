@@ -32,7 +32,7 @@ class _RecorderState extends State<Recorder> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(height: 10,),
+              SizedBox(height: 50,),
               CircleAvatar(
                 radius: 80,
                 backgroundColor: isMicOn?Colors.red: Colors.lightBlue,
@@ -95,7 +95,8 @@ class _RecorderState extends State<Recorder> {
                     if(fileName.length > 0){
                       return GestureDetector(
                         onTap: (){
-                          _play(index);
+                          // _play(index);
+                          show(title: fileName[index], index: index);
                         },
                           child: Card(
 
@@ -132,6 +133,45 @@ class _RecorderState extends State<Recorder> {
   await platForm.invokeMethod("PLAY", "$index");
   }
   Future _stop()async{
+    await platForm.invokeMethod("STOP");
 
+  }
+  void show({String title, int index}){
+    showDialog(context: context,
+        builder: (context){
+      Size size = MediaQuery.of(context).size;
+      bool isPlay =false;
+      return StatefulBuilder(builder: (context, setState){
+        return AlertDialog(
+          title: Text(title),
+          content: GestureDetector(
+            onTap: (){
+              setState(() {
+                isPlay = !isPlay;
+
+              });
+              if(isPlay){
+                _play(index);
+              }else{
+                _stop();
+              }
+            },
+            child: Container(
+              height: size.height/4,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CircleAvatar(
+                      radius: 60,
+                      backgroundColor: isPlay ? Colors.lightBlue:Colors.red,
+                      child: Icon(isPlay? Icons.pause_circle_filled:Icons.play_arrow, size: 80,)),
+                  Text(isPlay? "Pause":"Play", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black),)
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+        });
   }
 }
