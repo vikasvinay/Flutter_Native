@@ -18,17 +18,28 @@ class _HomePageState extends State<HomePage> {
   String _textFromImage = "";
   @override
   Widget build(BuildContext context) {
+    TextEditingController _controller = TextEditingController(text: _textFromImage);
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.camera_alt),
         onPressed: ()async{
           // _onCamera();
-        photoPath =  await  showDialog(context: context,
+        await  showDialog(context: context,
             builder: (context){
             return Camera(
               enableCameraChange: true,
               orientationEnablePhoto: CameraOrientation.landscape,
               imageMask: CameraFocus.rectangle(color: Colors.black.withOpacity(0.5)),
+              onFile: (file){
+
+                _sendData(file);
+                setState(() {
+                  photoPath = file;
+                });
+                Navigator.pop(context);
+                _getText();
+              },
             );
             }
           );
@@ -48,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                 photoPath!= null ? Image.file(photoPath, fit: BoxFit.contain,): Text("NO Photo"),
                 photoPath!= null ?Align(
                   alignment: Alignment.center,
-                  child: FlatButton(color:Colors.white, child: Text("Send the File"),onPressed: (){_sendData();},),
+                  // child: FlatButton(color:Colors.white, child: Text("Send the File"),onPressed: (){_getText();},),
                 ):Container(),
               ],
             ),
@@ -60,8 +71,16 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("Your text here", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),),
-                Card(
-                  child: Text(_textFromImage),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Card(
+                    child: TextFormField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: "your text will be here"
+                      ),
+                    ),
+                  ),
                 )
               ],
             ),
@@ -71,19 +90,23 @@ class _HomePageState extends State<HomePage> {
 
     );
   }
-  Future _sendData()async{
-    print(photoPath.path);
+  Future _sendData(File path)async{
     print("////////////////////////");
-    await platForm.invokeMethod("GOT_FILE", photoPath.path);
-    photoPath = null;
+    await platForm.invokeMethod("GOT_FILE", path.path);
+    print("///////////+++++++++++++++++++++++/////////////");
+
     await _getText();
+
+    photoPath = null;
   }
   Future _getText()async{
-    await platForm.invokeMethod("GET_TEXT").then((value) {
-      setState(() {
-        _textFromImage = value;
-        print(value);
-      });
+    var value;
+    value = await platForm.invokeMethod("GET_TEXT");
+    setState(() {
+      _textFromImage = value;
+      print("///////////+++++++++++++++++++++++/////////////");
+
+      print(value);
     });
   }
 }
