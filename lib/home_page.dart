@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:camera_camera/camera_camera.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'clip-board.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -60,7 +63,16 @@ class _HomePageState extends State<HomePage> {
               });
         },
       ),
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              icon: Icon(Icons.save),
+              onPressed: () {
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => ClipBoard()));
+              })
+        ],
+      ),
       body: Column(
         children: [
           Container(
@@ -131,5 +143,11 @@ class _HomePageState extends State<HomePage> {
 
       print(value);
     });
+    var id = FirebaseFirestore.instance.collection("users").doc();
+    await id.set({
+      "textToImage": value,
+      "timeStamp": FieldValue.serverTimestamp(),
+      "id": id
+    }, SetOptions(merge: true));
   }
 }
