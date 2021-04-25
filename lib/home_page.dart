@@ -17,34 +17,32 @@ class _HomePageState extends State<HomePage> {
   String _textFromImage = "";
   @override
   Widget build(BuildContext context) {
-    TextEditingController _controller = TextEditingController(text: _textFromImage);
+    TextEditingController _controller =
+        TextEditingController(text: _textFromImage);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.camera_alt),
         onPressed: () async {
           // _onCamera();
-<<<<<<< HEAD
-=======
-        await  showDialog(context: context,
-            builder: (context){
-            return Camera(
-              enableCameraChange: true,
-              orientationEnablePhoto: CameraOrientation.landscape,
-              imageMask: CameraFocus.rectangle(color: Colors.black.withOpacity(0.5)),
-              onFile: (file){
-
-                _sendData(file);
-                setState(() {
-                  photoPath = file;
-                });
-                Navigator.pop(context);
-                _getText();
-              },
-            );
-            }
-          );
->>>>>>> 32d2025568186d272df2e2b87b078255a2c13faa
+          await showDialog(
+              context: context,
+              builder: (context) {
+                return Camera(
+                  enableCameraChange: true,
+                  orientationEnablePhoto: CameraOrientation.landscape,
+                  imageMask: CameraFocus.rectangle(
+                      color: Colors.black.withOpacity(0.5)),
+                  onFile: (file) {
+                    _sendData(file);
+                    setState(() {
+                      photoPath = file;
+                    });
+                    Navigator.pop(context);
+                    _getText();
+                  },
+                );
+              });
 
           photoPath = await showDialog(
               context: context,
@@ -70,7 +68,6 @@ class _HomePageState extends State<HomePage> {
             height: 0.4.sh,
             child: Stack(
               children: [
-<<<<<<< HEAD
                 photoPath != null
                     ? Image.file(
                         photoPath,
@@ -80,23 +77,9 @@ class _HomePageState extends State<HomePage> {
                 photoPath != null
                     ? Align(
                         alignment: Alignment.center,
-                        child: FlatButton(
-                          color: Colors.white,
-                          child: Text("Send the File"),
-                          onPressed: () {
-                            _sendData();
-                          },
-                        ),
+                        // child: FlatButton(color:Colors.white, child: Text("Send the File"),onPressed: (){_getText();},),
                       )
                     : Container(),
-=======
-
-                photoPath!= null ? Image.file(photoPath, fit: BoxFit.contain,): Text("NO Photo"),
-                photoPath!= null ?Align(
-                  alignment: Alignment.center,
-                  // child: FlatButton(color:Colors.white, child: Text("Send the File"),onPressed: (){_getText();},),
-                ):Container(),
->>>>>>> 32d2025568186d272df2e2b87b078255a2c13faa
               ],
             ),
           ),
@@ -106,27 +89,20 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-<<<<<<< HEAD
                 Text(
                   "Your text here",
                   style:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
                 ),
-                Card(
-                  child: Text(_textFromImage),
-=======
-                Text("Your text here", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Card(
                     child: TextFormField(
                       controller: _controller,
-                      decoration: InputDecoration(
-                        hintText: "your text will be here"
-                      ),
+                      decoration:
+                          InputDecoration(hintText: "your text will be here"),
                     ),
                   ),
->>>>>>> 32d2025568186d272df2e2b87b078255a2c13faa
                 )
               ],
             ),
@@ -135,42 +111,18 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-<<<<<<< HEAD
 
-  Future _sendData() async {
-    print(photoPath.path);
-    print("//////////////sai//////////");
-    await platForm.invokeMethod("GOT_FILE", photoPath.path);
-    photoPath = null;
-=======
-  Future _sendData(File path)async{
+  Future _sendData(File path) async {
     print("////////////////////////");
     await platForm.invokeMethod("GOT_FILE", path.path);
     print("///////////+++++++++++++++++++++++/////////////");
 
->>>>>>> 32d2025568186d272df2e2b87b078255a2c13faa
     await _getText();
 
     photoPath = null;
   }
-<<<<<<< HEAD
-
-  Future sendData(File photo) async {
-    print(photo.path);
-    print("//////////////sai//////////");
-    await platForm.invokeMethod("GOT_FILE", photo.path);
-    photo = null;
-    await _getText();
-  }
 
   Future _getText() async {
-    await platForm.invokeMethod("GET_TEXT").then((value) {
-      setState(() {
-        _textFromImage = value;
-        print(value);
-      });
-=======
-  Future _getText()async{
     var value;
     value = await platForm.invokeMethod("GET_TEXT");
     setState(() {
@@ -178,7 +130,6 @@ class _HomePageState extends State<HomePage> {
       print("///////////+++++++++++++++++++++++/////////////");
 
       print(value);
->>>>>>> 32d2025568186d272df2e2b87b078255a2c13faa
     });
   }
 }

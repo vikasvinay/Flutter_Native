@@ -23,6 +23,7 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -47,10 +48,6 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
-<<<<<<< HEAD
-=======
-
->>>>>>> 32d2025568186d272df2e2b87b078255a2c13faa
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'),    'proguard-rules.pro'
@@ -63,14 +60,11 @@ flutter {
 }
 
 dependencies {
+    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+    implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.android.support:multidex:1.0.3'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
-<<<<<<< HEAD
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-=======
-//    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
->>>>>>> 32d2025568186d272df2e2b87b078255a2c13faa
     implementation 'com.android.support:multidex:1.0.3'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
