@@ -69,7 +69,6 @@ public class MainActivity extends FlutterActivity {
                                             for (int i =0; i<items.size(); ++i){
                                                 TextBlock bloc = items.valueAt(i);
                                                 str.append(bloc.getValue());
-//                                                str.append("\n");
                                             }
                         text[0] = str.toString();
                         System.out.println(text);

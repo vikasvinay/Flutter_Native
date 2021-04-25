@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:camera_camera/camera_camera.dart';
@@ -7,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -21,22 +20,26 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.camera_alt),
-        onPressed: ()async{
+        onPressed: () async {
           // _onCamera();
-        photoPath =  await  showDialog(context: context,
-            builder: (context){
-            return Camera(
-              enableCameraChange: true,
-              orientationEnablePhoto: CameraOrientation.landscape,
-              imageMask: CameraFocus.rectangle(color: Colors.black.withOpacity(0.5)),
-            );
-            }
-          );
 
+          photoPath = await showDialog(
+              context: context,
+              builder: (context) {
+                return Camera(
+                  // onFile: (File file) {
+                  //   sendData(file);
+
+                  // },
+                  enableCameraChange: true,
+                  orientationEnablePhoto: CameraOrientation.landscape,
+                  imageMask: CameraFocus.rectangle(
+                      color: Colors.black.withOpacity(0.5)),
+                );
+              });
         },
       ),
-      appBar: AppBar(), 
-
+      appBar: AppBar(),
       body: Column(
         children: [
           Container(
@@ -44,12 +47,24 @@ class _HomePageState extends State<HomePage> {
             height: 0.4.sh,
             child: Stack(
               children: [
-
-                photoPath!= null ? Image.file(photoPath, fit: BoxFit.contain,): Text("NO Photo"),
-                photoPath!= null ?Align(
-                  alignment: Alignment.center,
-                  child: FlatButton(color:Colors.white, child: Text("Send the File"),onPressed: (){_sendData();},),
-                ):Container(),
+                photoPath != null
+                    ? Image.file(
+                        photoPath,
+                        fit: BoxFit.contain,
+                      )
+                    : Text("NO Photo"),
+                photoPath != null
+                    ? Align(
+                        alignment: Alignment.center,
+                        child: FlatButton(
+                          color: Colors.white,
+                          child: Text("Send the File"),
+                          onPressed: () {
+                            _sendData();
+                          },
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           ),
@@ -59,7 +74,11 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Your text here", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),),
+                Text(
+                  "Your text here",
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
+                ),
                 Card(
                   child: Text(_textFromImage),
                 )
@@ -68,17 +87,26 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-
     );
   }
-  Future _sendData()async{
+
+  Future _sendData() async {
     print(photoPath.path);
-    print("////////////////////////");
+    print("//////////////sai//////////");
     await platForm.invokeMethod("GOT_FILE", photoPath.path);
     photoPath = null;
     await _getText();
   }
-  Future _getText()async{
+
+  Future sendData(File photo) async {
+    print(photo.path);
+    print("//////////////sai//////////");
+    await platForm.invokeMethod("GOT_FILE", photo.path);
+    photo = null;
+    await _getText();
+  }
+
+  Future _getText() async {
     await platForm.invokeMethod("GET_TEXT").then((value) {
       setState(() {
         _textFromImage = value;
