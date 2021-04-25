@@ -43,16 +43,17 @@ public class MainActivity extends FlutterActivity {
         checkNeedPermissions();
         TextView textView = null;
         final String channel = "demo.copy_paste.com";
-        final String[] text = {""};
         super.onCreate(savedInstanceState);
 //        GeneratedPluginRegistrant.registerWith(new FlutterEngine(this));
 
 
         new MethodChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), channel).setMethodCallHandler(new MethodChannel.MethodCallHandler(){
-
+            String text = "";
             @Override
             public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
                 String path = call.arguments();
+
+
                 System.out.println(path);
                 System.out.println("///================================");
 
@@ -70,12 +71,16 @@ public class MainActivity extends FlutterActivity {
                                                 TextBlock bloc = items.valueAt(i);
                                                 str.append(bloc.getValue());
                                             }
-                        text[0] = str.toString();
+                        text = str.toString();
+                        System.out.println("2222222222222222222222222222222222222");
+
                         System.out.println(text);
 
                         System.out.println("2222222222222222222222222222222222222");
 
                         System.out.println(str.toString());
+//                        result.success(text);
+
 
 
 //
@@ -109,6 +114,9 @@ public class MainActivity extends FlutterActivity {
                 }
                 if(call.method.equals("GET_TEXT")){
                     result.success(text);
+
+                    System.out.println("000000000000000000000000000000000000");
+
                 }
 
             }
