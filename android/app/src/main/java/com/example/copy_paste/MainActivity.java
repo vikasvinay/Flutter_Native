@@ -72,13 +72,9 @@ public class MainActivity extends FlutterActivity {
                                                 str.append(bloc.getValue());
                                             }
                         text = str.toString();
-                        System.out.println("2222222222222222222222222222222222222");
-
+                        System.out.println("-------------------"+text+"-----------------------");
                         System.out.println(text);
-
-                        System.out.println("2222222222222222222222222222222222222");
-
-                        System.out.println(str.toString());
+                        System.out.println("------------------------------------------");
 //                        result.success(text);
 
 

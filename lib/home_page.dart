@@ -46,21 +46,6 @@ class _HomePageState extends State<HomePage> {
                   },
                 );
               });
-
-          photoPath = await showDialog(
-              context: context,
-              builder: (context) {
-                return Camera(
-                  // onFile: (File file) {
-                  //   sendData(file);
-
-                  // },
-                  enableCameraChange: true,
-                  orientationEnablePhoto: CameraOrientation.landscape,
-                  imageMask: CameraFocus.rectangle(
-                      color: Colors.black.withOpacity(0.5)),
-                );
-              });
         },
       ),
       appBar: AppBar(
@@ -143,11 +128,11 @@ class _HomePageState extends State<HomePage> {
 
       print(value);
     });
-    var id = FirebaseFirestore.instance.collection("users").doc();
-    await id.set({
+    var doc = FirebaseFirestore.instance.collection("users").doc();
+    await doc.set({
       "textToImage": value,
       "timeStamp": FieldValue.serverTimestamp(),
-      "id": id
+      "id": doc.id
     }, SetOptions(merge: true));
   }
 }
