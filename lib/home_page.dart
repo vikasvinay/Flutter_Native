@@ -20,6 +20,9 @@ class _HomePageState extends State<HomePage> {
   String _textFromImage = "";
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setPreferredOrientations([
+    //     DeviceOrientation.landscapeLeft,
+    //   ]);
     TextEditingController _controller =
         TextEditingController(text: _textFromImage);
 

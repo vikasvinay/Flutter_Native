@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ClipBoard extends StatefulWidget {
   @override
@@ -10,6 +11,9 @@ class ClipBoard extends StatefulWidget {
 class _ClipBoardState extends State<ClipBoard> {
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setPreferredOrientations([
+    //     DeviceOrientation.landscapeLeft,
+    //   ]);
     return Scaffold(
       appBar: AppBar(),
       body: StreamBuilder(
